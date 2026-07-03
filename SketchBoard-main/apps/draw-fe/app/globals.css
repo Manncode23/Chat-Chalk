@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/*
+  ==========================================
+  1. CSS VARIABLE DEFINITIONS
+  ==========================================
+  This is the single source of truth for our "Creative Blueprint" theme.
+*/
+:root {
+  /* Light Mode Palette */
+  --background: 240 3.7% 95.9%; /* #F2F2F7 - Canvas White */
+  --surface: 0 0% 100%;           /* #FFFFFF - Pure White */
+  --border: 0 0% 89.8%;           /* #E5E5E5 - Light Gray */
+  
+  --foreground: 240 10% 3.9%;     /* #0A0A0A - Near Black */
+  --muted-foreground: 240 3.8% 46.1%; /* #6E6E73 - Muted Gray */
+
+  --primary: 243.8 95.8% 63.1%;  /* #6F61F5 - Primary Purple */
+  --primary-foreground: 0 0% 100%; /* #FFFFFF - Text on purple */
+}
+
+.dark {
+  /* Dark Mode Palette (Primary Theme) */
+  --background: 222.9 22.4% 11.2%; /* #141821 - Deep Inkwell */
+  --surface: 220 18.5% 15.5%;    /* #1F2532 - Lighter Surface */
+  --border: 217.2 32.6% 17.5%;   /* #272F3D - Subtle Border */
+  
+  --foreground: 210 40% 98%;     /* #FAFAFF - Soft White */
+  --muted-foreground: 215.4 16.3% 56.9%; /* #8A91A0 - Muted White */
+  
+  --primary: 243.8 95.8% 63.1%;  /* #6F61F5 - Primary Purple */
+  --primary-foreground: 0 0% 100%; /* #FFFFFF - Text on purple */
+}
+
+
+/*
+  ==========================================
+  2. TAILWIND @theme CONFIGURATION (v4)
+  ==========================================
+  We map our CSS variables to Tailwind's core utilities.
+*/
+@theme {
+  --font-sans: var(--font-inter);
+  --font-handwriting: var(--font-caveat);
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-surface: hsl(var(--surface));
+  --color-border: hsl(var(--border));
+}
+
+
+/*
+  ==========================================
+  3. GLOBAL STYLES & RESETS
+  ==========================================
+*/
+body {
+  @apply bg-background text-foreground;
+  font-feature-settings: 'rlig' 1, 'calt' 1;
+}
+
+/* Custom focus ring style for better accessibility */
+*:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-primary ring-offset-background;
+}

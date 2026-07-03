@@ -1,0 +1,23 @@
+{
+  "name": "ws-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node --env-file=.env dist/index.js",
+    "dev": "npm run build && npm run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/ws": "^8.18.1",
+    "ws": "^8.18.3",
+    "@repo/db": "*"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "@repo/backend-common": "*"
+  }
+}
