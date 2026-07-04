@@ -3,6 +3,7 @@
 import { WS_SERVER, HTTP_BACKEND } from "@/config"; 
 import { useEffect, useState } from "react";
 import { Canvas } from "./Canvas";
+import { ChatPanel } from "./ChatPanel";
 
 export function RoomCanvas({ roomId }: { roomId: string }) {
   const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -44,5 +45,10 @@ export function RoomCanvas({ roomId }: { roomId: string }) {
     return <div>Connecting to whiteboard...</div>;
   }
 
-  return <Canvas roomId={roomId} socket={socket} />;
+ return (
+  <>
+    <Canvas roomId={roomId} socket={socket} />
+    <ChatPanel roomId={roomId} socket={socket} />
+  </>
+);
 }

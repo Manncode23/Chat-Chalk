@@ -18,6 +18,17 @@ interface User {
 
 const users: Map<WebSocket, User> = new Map();
 const roomStates: Map<number, Shape[]> = new Map();
+const userNameCache: Map<string, string> = new Map();
+
+async function getUserName(userId: string): Promise<string> {
+  const cached = userNameCache.get(userId);
+  if (cached) return cached;
+
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
+  const name = user?.name ?? "Unknown";
+  userNameCache.set(userId, name);
+  return name;
+}
 
 
 function checkUser(token: string): string | null {
@@ -106,6 +117,7 @@ wss.on('connection', function connection(ws, request) {
         const idsToDelete = new Set<string>(parsedData.payload.ids);
         if (idsToDelete.size === 0) break;
 
+
         const newState = currentRoomState.filter(s => !idsToDelete.has(s.id));
         roomStates.set(roomId, newState);
 
@@ -138,6 +150,31 @@ wss.on('connection', function connection(ws, request) {
           .catch(e => console.error("DB delete failed:", e));
         break;
       }
+      case 'text_message': {
+  const text = typeof parsedData.message === 'string' ? parsedData.message.trim() : '';
+  if (!text) break;
+
+  const senderName = await getUserName(userId);
+  const outgoing = JSON.stringify({
+    type: 'text_message',
+    roomId,
+    userId,
+    senderName,
+    message: text,
+    createdAt: new Date().toISOString()
+  });
+
+  users.forEach((client, clientWs) => {
+    if (client.rooms.has(roomId)) {
+      clientWs.send(outgoing);
+    }
+  });
+
+  prisma.textMessage.create({
+    data: { roomId, userId, message: text }
+  }).catch(e => console.error("Text message DB save failed:", e));
+  break;
+}
     }
   });
 

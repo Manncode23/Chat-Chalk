@@ -165,6 +165,30 @@ app.get("/chats/:roomId", middleware, async (req, res) => {
 //     if (!slug) {
 //         return res.status(400).json({ message: "Room slug is required" });
 //     }
+app.get("/messages/:roomId", middleware, async (req, res) => {
+  try {
+    const roomId = Number(req.params.roomId);
+    if (isNaN(roomId)) {
+      return res.status(400).json({ message: "Invalid room ID" });
+    }
+
+    const messages = await prismaClient.textMessage.findMany({
+      where: { roomId },
+      orderBy: { id: "asc" },
+      take: 100,
+      include: {
+        user: {
+          select: { name: true }
+        }
+      }
+    });
+
+    res.json({ messages });
+  } catch (e) {
+    console.error("Failed to fetch messages:", e);
+    res.status(500).json({ message: "Failed to retrieve chat messages" });
+  }
+});
 app.get("/room/:slug", middleware, async (req, res) => { 
     const slug = req.params.slug;
     if (!slug || Array.isArray(slug)) {
