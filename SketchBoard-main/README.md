@@ -144,7 +144,7 @@ npm run dev
 
 | Service | URL |
 |---------|-----|
-| Frontend | http://localhost:3001 |
+| Frontend | http://localhost:3000 |
 | HTTP Server | http://localhost:3005 |
 | WebSocket Server | ws://localhost:8080 |
 
