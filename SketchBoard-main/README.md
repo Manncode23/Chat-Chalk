@@ -51,7 +51,10 @@ To run this project on your local machine, please ensure you have Node.js (v18+)
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/KrishnaShuk/SketchBoard.git
+    git clone https://github.com/Manncode23/Chat-Chalk.git
+    cd Chat-Chalk
+
+cd Chat-Chalk
     cd SketchBoard
     ```
 
